@@ -1,12 +1,11 @@
-const cookieParser = require("cookie-parser");
 const express = require("express");
-const app = express();
+const cookieParser = require("cookie-parser");
 const userRouters = require("./Routes/userRouters");
 require("dotenv").config();
-
 const db = require("./config/mongooseConnection");
 
-app.use(express());
+const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
