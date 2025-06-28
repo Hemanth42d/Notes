@@ -1,3 +1,4 @@
+const userModel = require("../models/user.model");
 const note = require("../models/note.model");
 
 module.exports.createNote = async (req, res) => {
@@ -131,22 +132,33 @@ module.exports.updateNotePinned = async (req, res) => {
 };
 
 module.exports.getUser = async (req, res) => {
-  const user = req.user;
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({
+        error: true,
+        message: "Unauthorized",
+      });
+    }
 
-  const isUser = await user.findOne({ _id: req.user._id });
+    const isUser = await userModel.findById(user._id);
 
-  if (!user)
-    return res.status(400).json({
-      error: true,
-      message: "Not user Found",
+    if (!isUser) {
+      return res.status(400).json({
+        error: true,
+        message: "No user Found",
+      });
+    }
+
+    return res.status(200).json({
+      user: {
+        fullName: isUser.fullName,
+        email: isUser.email,
+        _id: isUser._id,
+      },
+      message: "",
     });
-
-  return res.status(200).json({
-    user: {
-      fullName: isUser.fullName,
-      email: isUser.email,
-      _id: isUser._id,
-    },
-    message: "",
-  });
+  } catch (error) {
+    res.status(500).json({ error: true, message: error.message });
+  }
 };

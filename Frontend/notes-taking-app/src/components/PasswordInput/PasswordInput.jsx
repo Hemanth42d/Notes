@@ -21,15 +21,19 @@ const PasswordInput = ({ value, onChange, placeholder }) => {
 
       {isShownPassword ? (
         <FaRegEye
+          role="button"
+          tabIndex={0}
           size={22}
           className="text-[#2BB5FF] cursor-pointer absolute right-2 top-6"
-          onClick={() => toggleShownPassword()}
+          onClick={toggleShownPassword}
         />
       ) : (
         <FaRegEyeSlash
+          role="button"
+          tabIndex={0}
           size={22}
           className="text-slate-400 cursor-pointer absolute right-2 top-6"
-          onClick={() => toggleShownPassword()}
+          onClick={toggleShownPassword}
         />
       )}
     </div>

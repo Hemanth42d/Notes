@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import Image from "/Images/signUp.png";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosInstance";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
@@ -11,7 +12,9 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const handleSignUp = (e) => {
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     if (!fullName) {
@@ -31,6 +34,27 @@ const SignUp = () => {
     setError("");
 
     //SignUp Api Call
+    try {
+      let response = await axiosInstance.post("/signUp", {
+        email: email,
+        password: password,
+        fullName: fullName,
+      });
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
+    }
   };
 
   return (

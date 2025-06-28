@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUp/SignUp";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function App() {
   return (
