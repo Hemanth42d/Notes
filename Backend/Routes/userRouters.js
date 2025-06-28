@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { registerUser, loginUser } = require("../controllers/authController");
+const {
+  registerUser,
+  loginUser,
+  logoutUser,
+} = require("../controllers/authController");
 const {
   createNote,
   editNote,
@@ -14,6 +18,7 @@ const isLoggedIn = require("../middlewares/isLoggedIn");
 
 router.post("/signUp", registerUser);
 router.post("/login", loginUser);
+router.post("/logout", isLoggedIn, logoutUser);
 
 router.get("/get-user", isLoggedIn, getUser);
 router.get("/all-notes", isLoggedIn, getAllNotes);

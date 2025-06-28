@@ -41,13 +41,23 @@ module.exports.loginUser = async (req, res) => {
       if (result) {
         let token = generateToken(user);
         res.cookie("token", token);
-        res.json(token);
-        // res.send("Succesfully LogedIn...");
+        // res.json(token);
+        res.send("Succesfully LogedIn...");
       } else {
         res.send("Something went wrong.. Check your details");
       }
     });
   } catch (error) {
     res.send(err.message);
+  }
+};
+
+module.exports.logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.send("Logout succesfully");
+    res.redirect("/");
+  } catch (error) {
+    res.send(error.message);
   }
 };
