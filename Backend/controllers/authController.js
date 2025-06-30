@@ -20,7 +20,12 @@ module.exports.registerUser = async (req, res) => {
             password: hash,
           });
           let token = generateToken(user);
-          res.cookie("token", token);
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            maxAge: 24 * 60 * 60 * 1000,
+          });
           res.json({
             accessToken: token,
             message: "User Succefully Registered",
@@ -43,9 +48,13 @@ module.exports.loginUser = async (req, res) => {
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
         let token = generateToken(user);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "None",
+          maxAge: 24 * 60 * 60 * 1000,
+        });
         res.json({ accessToken: token, message: "Successfully Logged In" });
-        // res.send("Succesfully LogedIn...");
       } else {
         res.status(401).json({
           error: true,
