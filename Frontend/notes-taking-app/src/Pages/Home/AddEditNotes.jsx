@@ -23,7 +23,8 @@ const AddEditNotes = ({
           title,
           content,
           tags,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data && response.data.note) {
         showToastMessage("Note Added Successfully");
@@ -49,7 +50,8 @@ const AddEditNotes = ({
           title,
           content,
           tags,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data && response.data.newNote) {
         showToastMessage("Note Updated Successfully");

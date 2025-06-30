@@ -10,6 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const handleLogin = async (e) => {
@@ -26,6 +27,7 @@ const Login = () => {
     }
 
     setError("");
+    setIsLoading(true);
 
     try {
       const response = await axiosInstance.post(
@@ -33,11 +35,13 @@ const Login = () => {
         {
           email: email,
           password: password,
+        },
+        {
+          withCredentials: true,
         }
       );
 
       if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
         navigate("/dashboard");
       }
     } catch (error) {
@@ -50,6 +54,8 @@ const Login = () => {
       } else {
         setError(error.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,20 +78,23 @@ const Login = () => {
                   className="bg-white border-1 px-4 border-gray-300 w-full text-sm outline-none p-2 mt-8 rounded-md"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                 />
 
                 <PasswordInput
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
                 />
 
                 {error && <p className="text-red-500 text-xs pb-1 ">{error}</p>}
 
                 <button
                   type="submit"
-                  className="w-full mt-5 text-sm bg-[#2BB5FF] text-white p-2 rounded-md my-1 hover:bg-blue-600 cursor-pointer"
+                  className="w-full mt-5 text-sm bg-[#2BB5FF] text-white p-2 rounded-md my-1 hover:bg-blue-600 cursor-pointer disabled:bg-blue-300"
+                  disabled={isLoading}
                 >
-                  Login
+                  {isLoading ? "Logging in..." : "Login"}
                 </button>
 
                 <p className="text-sm text-center mt-4">

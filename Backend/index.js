@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URI,
+    origin: "https://noteswebapp-pwm2.onrender.com/",
     credentials: true,
   })
 );
@@ -23,5 +23,5 @@ app.use(cookieParser());
 app.use("/", userRouters);
 
 app.listen(PORT, () => {
-  console.log(`Port is running at https://localhost:${8000}`);
+  console.log(`Port is running ${"https://noteswebapp-pwm2.onrender.com/"}`);
 });

@@ -54,7 +54,8 @@ const Home = () => {
   const getUserInfo = async () => {
     try {
       const response = await await axiosInstance.get(
-        `${import.meta.env.VITE_API_URL}/get-user`
+        `${import.meta.env.VITE_API_URL}/get-user`,
+        { withCredentials: true }
       );
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
@@ -70,7 +71,8 @@ const Home = () => {
   const getAllNotes = async () => {
     try {
       let response = await axiosInstance.get(
-        `${import.meta.env.VITE_API_URL}/all-notes`
+        `${import.meta.env.VITE_API_URL}/all-notes`,
+        { withCredentials: true }
       );
       if (response && response.data.notes) {
         setAllNotes(response.data.notes);
@@ -84,7 +86,8 @@ const Home = () => {
     const noteId = data._id;
     try {
       const response = await axiosInstance.delete(
-        `${import.meta.env.VITE_API_URL}/delete-note/` + noteId
+        `${import.meta.env.VITE_API_URL}/delete-note/` + noteId,
+        { withCredentials: true }
       );
       if (response.data && !response.data.error) {
         showToastMessage("Note Deleted Successfully", "delete");
@@ -107,7 +110,8 @@ const Home = () => {
         `${import.meta.env.VITE_API_URL}/search-note`,
         {
           params: { query },
-        }
+        },
+        { withCredentials: true }
       );
 
       if (response.data && response.data.notes) {
@@ -126,7 +130,8 @@ const Home = () => {
         `${import.meta.env.VITE_API_URL}/update-note-pinned/` + noteId,
         {
           isPinned: !noteData.isPinned,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data && response.data.newNote) {
         showToastMessage(
@@ -149,7 +154,8 @@ const Home = () => {
   const onLogout = async () => {
     try {
       const response = await axiosInstance.post(
-        `${import.meta.env.VITE_API_URL}/logout`
+        `${import.meta.env.VITE_API_URL}/logout`,
+        { withCredentials: true }
       );
       if (response.status === 200) {
         localStorage.clear();

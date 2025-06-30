@@ -41,7 +41,8 @@ const SignUp = () => {
           email: email,
           password: password,
           fullName: fullName,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
