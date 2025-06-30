@@ -17,11 +17,14 @@ const AddEditNotes = ({
 
   const addNewNote = async () => {
     try {
-      const response = await axiosInstance.post("/add-note", {
-        title,
-        content,
-        tags,
-      });
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_API_URL}/add-note`,
+        {
+          title,
+          content,
+          tags,
+        }
+      );
       if (response.data && response.data.note) {
         showToastMessage("Note Added Successfully");
         await getAllNotes();
@@ -40,11 +43,14 @@ const AddEditNotes = ({
   const editNote = async () => {
     const noteId = noteData._id;
     try {
-      const response = await axiosInstance.put("/edit-note/" + noteId, {
-        title,
-        content,
-        tags,
-      });
+      const response = await axiosInstance.put(
+        `${import.meta.env.VITE_API_URL}/edit-note/` + noteId,
+        {
+          title,
+          content,
+          tags,
+        }
+      );
       if (response.data && response.data.newNote) {
         showToastMessage("Note Updated Successfully");
         await getAllNotes();

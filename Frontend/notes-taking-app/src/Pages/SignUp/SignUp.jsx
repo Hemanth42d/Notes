@@ -35,11 +35,14 @@ const SignUp = () => {
 
     //SignUp Api Call
     try {
-      let response = await axiosInstance.post("/signUp", {
-        email: email,
-        password: password,
-        fullName: fullName,
-      });
+      let response = await axiosInstance.post(
+        `${import.meta.env.VITE_API_URL}/signUp`,
+        {
+          email: email,
+          password: password,
+          fullName: fullName,
+        }
+      );
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
         navigate("/dashboard");

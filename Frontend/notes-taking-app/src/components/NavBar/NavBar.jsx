@@ -23,14 +23,16 @@ const NavBar = ({ userInfo, onLogout, onSearchNote, handleClearSearch }) => {
       <div className="border-1 border-gray-300 shadow-md h-20 w-full flex justify-between items-center px-6">
         <h1 className=" text-2xl ">Notes</h1>
 
-        <SearchBar
-          value={searchQuery}
-          onChange={({ target }) => {
-            setSearchQuery(target.value);
-          }}
-          handleSearch={handleSearch}
-          onClearSearch={onClearSearch}
-        />
+        {userInfo && (
+          <SearchBar
+            value={searchQuery}
+            onChange={({ target }) => {
+              setSearchQuery(target.value);
+            }}
+            handleSearch={handleSearch}
+            onClearSearch={onClearSearch}
+          />
+        )}
 
         <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
       </div>

@@ -53,7 +53,9 @@ const Home = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await await axiosInstance.get("/get-user");
+      const response = await await axiosInstance.get(
+        `${import.meta.env.VITE_API_URL}/get-user`
+      );
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
       }
@@ -67,7 +69,9 @@ const Home = () => {
 
   const getAllNotes = async () => {
     try {
-      let response = await axiosInstance.get("/all-notes");
+      let response = await axiosInstance.get(
+        `${import.meta.env.VITE_API_URL}/all-notes`
+      );
       if (response && response.data.notes) {
         setAllNotes(response.data.notes);
       }
@@ -79,7 +83,9 @@ const Home = () => {
   const deleteNote = async (data) => {
     const noteId = data._id;
     try {
-      const response = await axiosInstance.delete("/delete-note/" + noteId);
+      const response = await axiosInstance.delete(
+        `${import.meta.env.VITE_API_URL}/delete-note/` + noteId
+      );
       if (response.data && !response.data.error) {
         showToastMessage("Note Deleted Successfully", "delete");
         await getAllNotes();
@@ -97,9 +103,12 @@ const Home = () => {
 
   const onSearchNote = async (query) => {
     try {
-      const response = await axiosInstance.get("/search-note", {
-        params: { query },
-      });
+      const response = await axiosInstance.get(
+        `${import.meta.env.VITE_API_URL}/search-note`,
+        {
+          params: { query },
+        }
+      );
 
       if (response.data && response.data.notes) {
         setIsSearch(true);
@@ -114,7 +123,7 @@ const Home = () => {
     const noteId = noteData._id;
     try {
       const response = await axiosInstance.put(
-        "/update-note-pinned/" + noteId,
+        `${import.meta.env.VITE_API_URL}/update-note-pinned/` + noteId,
         {
           isPinned: !noteData.isPinned,
         }
@@ -139,7 +148,9 @@ const Home = () => {
 
   const onLogout = async () => {
     try {
-      const response = await axiosInstance.post("/logout");
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_API_URL}/logout`
+      );
       if (response.status === 200) {
         localStorage.clear();
         navigate("/login");

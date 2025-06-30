@@ -28,10 +28,13 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await axiosInstance.post("/login", {
-        email: email,
-        password: password,
-      });
+      const response = await axiosInstance.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
