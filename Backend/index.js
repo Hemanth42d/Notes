@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: "https://noteswebapp-pwm2.onrender.com/",
+    origin: "https://noteswebapp-pwm2.onrender.com",
     credentials: true,
   })
 );
