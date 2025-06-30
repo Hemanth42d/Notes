@@ -107,7 +107,7 @@ module.exports.updateNotePinned = async (req, res) => {
   const noteId = req.params.noteId;
   const { isPinned } = req.body;
 
-  if (!isPinned) {
+  if (isPinned === undefined) {
     return res.status(400).json({ error: false, message: "No Update done" });
   }
 
@@ -117,14 +117,14 @@ module.exports.updateNotePinned = async (req, res) => {
     if (!newNote)
       return res.status(404).json({ error: true, message: "No Note found.." });
 
-    if (isPinned) newNote.isPinned = isPinned;
+    newNote.isPinned = isPinned;
 
     await newNote.save();
 
     return res.status(200).json({
       error: false,
       newNote,
-      message: "Note Updated Succesfully",
+      message: "Note Updated Successfully",
     });
   } catch (error) {
     res.send(error.message);
@@ -160,5 +160,36 @@ module.exports.getUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: true, message: error.message });
+  }
+};
+
+module.exports.searchNote = async (req, res) => {
+  const user = req.user;
+  const { query } = req.query;
+
+  if (!query) {
+    return res
+      .status(400)
+      .json({ error: true, message: "search query is required " });
+  }
+  try {
+    const matchingNote = await note.find({
+      userId: user._id,
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { content: { $regex: new RegExp(query, "i") } },
+      ],
+    });
+
+    res.json({
+      error: false,
+      notes: matchingNote,
+      message: "Notes matching the search query retrieved successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: "Internal server error",
+    });
   }
 };

@@ -3,7 +3,13 @@ import TagInput from "../../components/PasswordInput/TagInput";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "../../utils/axiosInstance";
 
-const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
+const AddEditNotes = ({
+  noteData,
+  type,
+  getAllNotes,
+  onClose,
+  showToastMessage,
+}) => {
   const [title, setTitle] = useState(noteData?.title || "");
   const [content, setContent] = useState(noteData?.content || "");
   const [tags, setTags] = useState(noteData?.tags || []);
@@ -17,8 +23,8 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
         tags,
       });
       if (response.data && response.data.note) {
-        getAllNotes();
-        console.log("onClose called after edit");
+        showToastMessage("Note Added Successfully");
+        await getAllNotes();
         onClose();
       }
     } catch (error) {
@@ -39,9 +45,9 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
         content,
         tags,
       });
-      if (response.data && response.data.note) {
-        getAllNotes();
-        console.log("onClose called after edit");
+      if (response.data && response.data.newNote) {
+        showToastMessage("Note Updated Successfully");
+        await getAllNotes();
         onClose();
       }
     } catch (error) {
@@ -60,7 +66,6 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose }) => {
       setError("Please enter the title");
       return;
     }
-
     if (!content) {
       setError("Please enter the content");
       return;

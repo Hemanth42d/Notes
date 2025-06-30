@@ -13,6 +13,7 @@ const {
   deleteNote,
   updateNotePinned,
   getUser,
+  searchNote,
 } = require("../controllers/noteController");
 const isLoggedIn = require("../middlewares/isLoggedIn");
 
@@ -26,5 +27,6 @@ router.post("/add-note", isLoggedIn, createNote);
 router.put("/edit-note/:noteId", isLoggedIn, editNote);
 router.delete("/delete-note/:noteId", isLoggedIn, deleteNote);
 router.put("/update-note-pinned/:noteId", isLoggedIn, updateNotePinned);
+router.get("/search-note", isLoggedIn, searchNote);
 
 module.exports = router;

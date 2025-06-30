@@ -25,7 +25,6 @@ module.exports.registerUser = async (req, res) => {
             accessToken: token,
             message: "User Succefully Registered",
           });
-          // res.send("User registerd Successfully");
         }
       });
     });
@@ -48,7 +47,10 @@ module.exports.loginUser = async (req, res) => {
         res.json({ accessToken: token, message: "Successfully Logged In" });
         // res.send("Succesfully LogedIn...");
       } else {
-        res.send("Something went wrong.. Check your details");
+        res.status(401).json({
+          error: true,
+          message: "Invalid email or password",
+        });
       }
     });
   } catch (error) {
@@ -59,9 +61,14 @@ module.exports.loginUser = async (req, res) => {
 module.exports.logoutUser = async (req, res) => {
   try {
     res.clearCookie("token");
-    // res.send("Logout succesfully");
-    res.redirect("/");
+    return res.status(200).json({
+      error: false,
+      message: "Logged out successfully",
+    });
   } catch (error) {
-    res.send(error.message);
+    return res.status(500).json({
+      error: true,
+      message: error.message,
+    });
   }
 };

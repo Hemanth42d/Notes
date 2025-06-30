@@ -3,7 +3,10 @@ const userModel = require("../models/user.model");
 
 module.exports = async (req, res, next) => {
   if (!req.cookies.token) {
-    return res.redirect("/");
+    return res.status(401).json({
+      error: true,
+      message: "Unauthorized: No token provided",
+    });
   }
 
   try {
@@ -15,14 +18,21 @@ module.exports = async (req, res, next) => {
     const user = await userModel
       .findOne({ email: decoded.email })
       .select("-password");
+
     if (!user) {
-      return res.redirect("/");
+      return res.status(401).json({
+        error: true,
+        message: "Unauthorized: User not found",
+      });
     }
 
     req.user = user;
     next();
   } catch (error) {
     console.error("Authentication Error:", error);
-    res.redirect("/");
+    return res.status(401).json({
+      error: true,
+      message: "Unauthorized: Invalid token",
+    });
   }
 };
