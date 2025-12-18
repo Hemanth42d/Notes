@@ -68,7 +68,7 @@ A simple full-stack **Notes Web Application** that allows users to create, view,
 ### Steps
 
 1. Clone the repository
-git clone https://github.com/Hemanth42d/NotesWebApp.git
+git clone https://github.com/Hemanth42d/NotesWebApp.git \n
 cd NotesWebApp
 ### 2. Install Dependencies
 
